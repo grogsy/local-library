@@ -1,0 +1,44 @@
+{% extends 'catalog/base_generic.html' %}
+
+{% block content %}
+    <div class="row mt-2">
+        <div class="col-2">
+            <img width="225" height="325" src="{{ book.image_url }}" class="border border-dark">
+        </div>
+        <div class="col-10 border-left">
+            <h1>{{ book.title }}</h1>
+            <hr>
+        
+            <p><strong>Author: </strong> <a href="{{ book.author.get_absolute_url }}">{{ book.author }}</a></p>
+            <p><strong>ISBN: </strong> {{ book.isbn }}</p>
+            <!-- <p><strong>Genre: </strong>{{ book.genre.all|join:", " }}</p> -->
+            <p><strong>Genre: 
+                {% for genre in book.genre.all %}
+                    <a href="{% url 'catalog:books-by-genre' genre.slug %}">{{ genre.name }}, </a>
+                {% endfor %}
+            </strong></p>
+        </div>
+        
+    </div>
+    <hr>
+    <p><strong>Summary: </strong></p>
+    <p class="ml-2">{{ book.summary }}</p>
+
+    <div class="ml-3 mt-3">
+        <h4>Copies</h4>
+        
+        {% for copy in book.copies.all %}
+            <hr>
+            <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
+                {{ copy.get_status_display }}
+            </p>
+            {% if copy.status != 'a' %}
+                <p><strong>Due to be returned:</strong> {{ copy.due_back }}</p>
+            {% endif %}
+            <p><strong>Imprint: </strong>{{ copy.imprint }}</p>
+            <p><strong>Copy ID: </strong>{{ copy.id }}</p>
+            <p><strong>Written in: </strong>{{ copy.language.name }}</p>
+        {% endfor %}
+            
+    </div>
+{% endblock content %}

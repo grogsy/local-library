@@ -1,0 +1,20 @@
+{% extends 'catalog/base_generic.html' %}
+
+{% block content %}
+    <h1>Books you're borrowing</h1>
+    
+    {% if copies %}
+        <ul>
+            {% for copy in copies %}
+                <li class="{% if copy.is_overdue %}text-danger{% endif %}">
+                    <a href="{% url 'catalog:book-detail' copy.book.pk %}">{{ copy.book.title }}</a> -- ({{ copy.due_back }})
+                </li>
+            {% endfor %}
+                
+        </ul>
+    {% else %}
+        <p>Currently not loaned any books.</p>
+    {% endif %}
+        
+{% endblock content %}
+    

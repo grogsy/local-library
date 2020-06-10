@@ -1,0 +1,36 @@
+{% extends 'catalog/base_generic.html' %}
+
+{% block content %}
+
+    {% if form.errors %}
+        <p>Username/password didn't match. Try again.</p>
+    {% endif %}
+    
+    {% if next %}
+       {% if user.is_authenticated %}
+            <p>Account doesn't have access to this page.</p>
+        {% else %}
+            <p>You are not signed in.</p>
+       {% endif %}
+    {% endif %}
+
+    <form action="{% url 'login' %}" method="POST" class="mt-2">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>{{ form.username.label_tag }}</td>
+                <td>{{ form.username }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.password.label_tag }}</td>
+                <td>{{ form.password }}</td>
+            </tr>
+        </table>
+        <input type="submit" value="login" class="btn btn-primary" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+
+    <p><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+        
+{% endblock content %}
+    

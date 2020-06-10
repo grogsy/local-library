@@ -1,0 +1,20 @@
+{% extends 'catalog/base_generic.html' %}
+
+{% block content %}
+    <h1>Local Library Home</h1>    
+    {% if user.is_authenticated %}
+        <p>Welcome back, {{ user.username }}!</p>
+    {% else %}
+        <p>Welcome to the Local Library!</p>
+    {% endif %}
+    <h2>Dynamic content</h2>
+    <p>The library has the following record counts:</p>
+    <ul>
+        <li><strong>Books:</strong> {{ num_books }}</li>
+        <li><strong>Copies: </strong> {{ num_instances }}</li>
+        <li><strong>Copies Available: </strong>{{ num_instances_available }}</li>
+        <li><strong>Authors: </strong>{{ num_authors }}</li>
+    </ul>
+    <p>Times visited this page: {{ num_visits }}</p>
+{% endblock content %}
+    
